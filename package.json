@@ -4,15 +4,21 @@
   "description": "{{BUSINESS_NAME}} Website",
   "type": "module",
   "scripts": {
-    "dev": "npm run css:watch & eleventy --serve --watch",
+    "dev": "concurrently \"npm run css:watch\" \"eleventy --serve --watch\" --names \"CSS,11ty\" --prefix-colors \"cyan,green\" --kill-others-on-fail",
+    "dev:simple": "npm run css:watch & eleventy --serve --watch",
     "build": "npm run css:build && eleventy",
     "preview": "eleventy --serve",
-    "css:build": "tailwindcss -i tailwind.config.css -o _site/css/style.css",
-    "css:watch": "tailwindcss -i tailwind.config.css -o _site/css/style.css --watch"
+    "css:build": "tailwindcss -i tailwind.config.css -o _site/css/style.css --minify",
+    "css:watch": "tailwindcss -i tailwind.config.css -o _site/css/style.css --watch",
+    "clean": "rm -rf _site",
+    "fresh": "npm run clean && npm run build"
   },
   "dependencies": {
     "@11ty/eleventy": "^3.1.1",
-    "tailwindcss": "^4.0.0",
-    "@tailwindcss/cli": "^4.0.0"
+    "@tailwindcss/cli": "^4.0.0",
+    "tailwindcss": "^4.0.0"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.0"
   }
 }
